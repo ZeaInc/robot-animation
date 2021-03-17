@@ -2,6 +2,9 @@
   import { onMount } from 'svelte'
 
   import '../helpers/fps-display'
+  import loadPointCloud from '../helpers/1.loadPointCloud.js'
+  import loadModel from '../helpers/2.loadModel.js'
+  import setupAnimation from '../helpers/3.setupAnimation.js'
 
   import Menu from '../components/ContextMenu/Menu.svelte'
   import MenuOption from '../components/ContextMenu/MenuOption.svelte'
@@ -82,9 +85,7 @@
     // Assigning an Environment Map enables PBR lighting for niceer shiny surfaces.
     if (!SystemDesc.isMobileDevice && SystemDesc.gpuDesc.supportsWebGL2) {
       const envMap = new EnvMap('envMap')
-      envMap
-        .getParameter('FilePath')
-        .setValue(`/data/HDR_029_Sky_Cloudy_Ref.vlenv`)
+      envMap.getParameter('FilePath').setValue(`/data/StudioG.zenv`)
       envMap.getParameter('HeadLightMode').setValue(true)
       $scene.getSettings().getParameter('EnvMap').setValue(envMap)
     }
@@ -169,6 +170,7 @@
       }
     })
 
+    /*
     let highlightedItem
     renderer.getViewport().on('pointerOverGeom', (event) => {
       highlightedItem = filterItemSelection(event.intersectionData.geomItem)
@@ -185,6 +187,7 @@
     renderer.getViewport().on('pointerDoublePressed', (event) => {
       console.log(event)
     })
+    */
     /** UX END */
 
     /** PROGRESSBAR START */
@@ -199,7 +202,15 @@
     fpsContainer.appendChild(fpsDisplay)
     /** FPS DISPLAY END */
 
-    /** CAD START */
+    const pointCloud = loadPointCloud(appData)
+    $scene.getRoot().addChild(pointCloud)
+
+    const model = loadModel(appData)
+    $scene.getRoot().addChild(model)
+
+    setupAnimation(model)
+
+    /** CAD START
     renderer.addPass(new GLCADPass())
 
     const loadAsset = (url) => {
@@ -237,7 +248,7 @@
     }
     /** CAD END */
 
-    /** COLLAB START*/
+    /** COLLAB START
     if (!embeddedMode) {
       const SOCKET_URL = 'https://websocket-staging.zea.live'
       const ROOM_ID = assetUrl
@@ -261,7 +272,7 @@
     }
     /** COLLAB END */
 
-    /** EMBED MESSAGING START*/
+    /** EMBED MESSAGING START
     if (embeddedMode) {
       client.on('setBackgroundColor', (data) => {
         const color = new Color(data.color)
@@ -345,16 +356,20 @@
   $: parameterOwner = null
 </script>
 
-<main class="Main flex-1 relative">
-  <canvas bind:this={canvas} class="absolute h-full w-full" />
-  <div bind:this={fpsContainer} />
-  <Drawer>
-    <Sidebar />
-  </Drawer>
+<main class="Main flex flex-col flex-1">
+  <div class="flex-1 relative">
+    <canvas bind:this={canvas} class="absolute h-full w-full" />
 
-  {#if $ui.shouldShowParameterOwnerWidget}
-    <ParameterOwnerWidget {parameterOwner} />
-  {/if}
+    <div bind:this={fpsContainer} />
+
+    <Drawer>
+      <Sidebar />
+    </Drawer>
+  </div>
+
+  <div class="h-10 bg-background relative">
+    <zea-timebar id="timecontrols" />
+  </div>
 </main>
 
 {#if progress < 100}

@@ -12,8 +12,8 @@
   import MenuItemToggle from './MenuItemToggle.svelte'
   import MenuBar from './MenuBar.svelte'
   import MenuBarItem from './MenuBarItem.svelte'
-  import UserChip from './UserChip.svelte'
-  import UsersChips from './UsersChips.svelte'
+  //import UserChip from './UserChip.svelte'
+  //import UsersChips from './UsersChips.svelte'
 
   import { auth } from '../helpers/auth'
 
@@ -303,6 +303,7 @@
       </MenuBarItem>
     </MenuBar>
 
+    <!--
     {#if $APP_DATA}
       <UsersChips session={$APP_DATA.session} />
     {/if}
@@ -314,5 +315,6 @@
         </div>
       </UserChip>
     {/if}
+    -->
   </header>
 {/if}
