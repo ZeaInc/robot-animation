@@ -275,6 +275,7 @@
         </Menu>
       </MenuBarItem>
 
+      <!--
       <MenuBarItem label="Collab" let:isOpen>
         <Menu {isOpen}>
           <MenuItem
@@ -285,6 +286,7 @@
           />
         </Menu>
       </MenuBarItem>
+      -->
 
       <MenuBarItem label="VR" let:isOpen>
         <Menu {isOpen}>
@@ -297,23 +299,6 @@
             label="Enable Spectator Mode"
             on:click={handleToggleVRSpatatorMode}
           />
-        </Menu>
-      </MenuBarItem>
-
-      <MenuBarItem label="More" let:isOpen>
-        <Menu {isOpen}>
-          <MenuItem label="Foo Bar" shortcut="Ctrl+A" />
-          <MenuItem label="Foo Bar" />
-          <MenuItem label="Foo Bar" iconLeft="storage" shortcut="Shift+B" />
-          <MenuItem label="Foo Bar" />
-          <MenuItem label="Foo Bar" shortcut="Alt+C" />
-          <MenuItem label="Foo Bar" />
-          <MenuItemDropDown label="Foo Bar" let:isOpen>
-            <Menu {isOpen}>
-              <MenuItem label="Foo Bar" />
-              <MenuItem label="Foo Bar" />
-            </Menu>
-          </MenuItemDropDown>
         </Menu>
       </MenuBarItem>
     </MenuBar>
