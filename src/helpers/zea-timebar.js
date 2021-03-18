@@ -12,7 +12,8 @@ export class ZeaTimeBar extends HTMLElement {
     this.timeline.id = 'timeline'
     shadowRoot.appendChild(this.timeline)
 
-    this.keysContainer = document.createElement('div')
+    this.keysContainer = document.createElement('ul')
+    this.keysContainer.classList.add('keys')
     this.keysContainer.id = 'keys'
     this.timeline.appendChild(this.keysContainer)
     this.keys = []
@@ -21,17 +22,15 @@ export class ZeaTimeBar extends HTMLElement {
     this.timebar.id = 'timebar'
     this.timeline.appendChild(this.timebar)
 
-    const prevKeyBtn = document.createElement('i')
+    const prevKeyBtn = document.createElement('button')
+    prevKeyBtn.classList.add('scrub')
     prevKeyBtn.id = 'prevKey'
-    prevKeyBtn.classList.add('fas')
-    prevKeyBtn.classList.add('fa-chevron-circle-right')
     prevKeyBtn.textContent = '<'
     shadowRoot.appendChild(prevKeyBtn)
 
-    const nextKeyBtn = document.createElement('i')
+    const nextKeyBtn = document.createElement('button')
+    nextKeyBtn.classList.add('scrub')
     nextKeyBtn.id = 'nextKey'
-    nextKeyBtn.classList.add('fas')
-    nextKeyBtn.classList.add('fa-chevron-circle-left')
     nextKeyBtn.textContent = '>'
     shadowRoot.appendChild(nextKeyBtn)
 
@@ -143,71 +142,69 @@ export class ZeaTimeBar extends HTMLElement {
 
     const styleTag = document.createElement('style')
     styleTag.appendChild(
-      document.createTextNode(`
+      document.createTextNode(
+        `
+        #timecontrols {
+          position: relative;
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+        #timecontrols > * {
+          position: absolute;
+        }
 
-      #timecontrols {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-      #timecontrols > * {
-        position: absolute;
-      }
+        #timeline {
+          width: 100%;
+          height: 100%;
+          width: calc(100% - 70px);
+          bottom: 0px;
+          margin: 0;
+          padding: 0;
+          border: #545454;
+          border-style: solid;
+          border-width: 1px;
+        }
 
-      #timeline {
-        width: 100%;
-        height: 100%;
-        width: calc(100% - 70px);
-        bottom: 0px;
-        margin: 0;
-        padding: 0;
-        border: #545454;
-        border-style: solid;
-        border-width: 1px;
-      }
+        #timebar {
+          position: absolute;
+          height: calc(100% - 2px);
+          width: 10px;
+          bottom: 1px;
+          background-color: rgb(255,0,0,0.5);
+        }
 
-      #timebar {
-        position: absolute;
-        height: calc(100% - 2px);
-        width: 10px;
-        bottom: 1px;
-        background-color: rgb(255,0,0,0.5);
-      }
+        .keys {
+          list-style: none;
+        }
 
-      .key {
-        position: absolute;
-        height: calc(100% - 4px);
-        width: 2px;
-        bottom: 2px;
-        background-color: #F9CE03;
-      }
+        .key {
+          position: absolute;
+          height: calc(100% - 4px);
+          width: 2px;
+          bottom: 2px;
+          background-color: #F9CE03;
+        }
 
-      #prevKey {
-        position: absolute;
-        height: 100%;
-        width: 30px;
-        right: 30px;
-        bottom: 0px;
-        /* background-color: burlywood; */
-        border: #545454;
-        border-style: solid;
-        border-width: 1px;
-      }
+        .scrub {
+          background-color: transparent;
+          color: white;
+          position: absolute;
+          height: 91%;
+          width: 30px;
+          bottom: 2px;
+          border: 1px solid #545454;
+        }
 
-      #nextKey {
-        position: absolute;
-        height: 100%;
-        width: 30px;
-        right: 0px;
-        bottom: 0px;
-        /* background-color: burlywood; */
-        border: #545454;
-        border-style: solid;
-        border-width: 1px;
-      }
+        #prevKey {
+          right: 35px;
+        }
 
-`)
+        #nextKey {
+          right: 3px;
+        }
+        `
+      )
     )
     shadowRoot.appendChild(styleTag)
   }
@@ -244,7 +241,7 @@ export class ZeaTimeBar extends HTMLElement {
   }
 
   addKey(index) {
-    const key = document.createElement('div')
+    const key = document.createElement('li')
     key.classList.add('key')
 
     const time = this.__track.getKeyTime(index)
