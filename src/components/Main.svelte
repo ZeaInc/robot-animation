@@ -202,8 +202,10 @@
     fpsContainer.appendChild(fpsDisplay)
     /** FPS DISPLAY END */
 
-    const pointCloud = loadPointCloud(appData)
-    $scene.getRoot().addChild(pointCloud)
+    if (!SystemDesc.isMobileDevice && SystemDesc.gpuDesc.supportsWebGL2) {
+      const pointCloud = loadPointCloud(appData)
+      $scene.getRoot().addChild(pointCloud)
+    }
 
     const model = loadModel(appData)
     $scene.getRoot().addChild(model)
