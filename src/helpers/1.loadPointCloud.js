@@ -4,6 +4,8 @@ const { PointCloudAsset, GLPointCloudPass } = window.zeaPotree
 const loadPointCloud = (appData) => {
   const pointCloudPass = new GLPointCloudPass()
   appData.renderer.addPass(pointCloudPass, PassType.OPAQUE)
+  // Force a fix for the recent regression.
+  pointCloudPass.__passIndex = pointCloudPass.passIndex
 
   const pointCloud = new PointCloudAsset('NavVisHQ')
   const pointCloudUrl =

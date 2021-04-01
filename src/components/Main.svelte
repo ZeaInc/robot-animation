@@ -208,7 +208,7 @@
     }
 
     const model = loadModel(appData)
-    $scene.getRoot().addChild(model)
+    $assets.addChild(model)
 
     setupAnimation(model)
 
