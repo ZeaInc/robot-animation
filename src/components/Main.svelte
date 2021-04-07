@@ -380,3 +380,9 @@
     />
   </Menu>
 {/if}
+
+<style>
+  canvas {
+    touch-action: none;
+  }
+</style>
