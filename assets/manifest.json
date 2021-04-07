@@ -4,7 +4,7 @@
   "name": "Zea Svelte Template",
   "short_name": "Zea Svelte Template",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "icons": [
     {
       "src": "images/manifest-icon-192.png",
@@ -18,5 +18,6 @@
       "type": "image/png",
       "purpose": "maskable any"
     }
-  ]
+  ],
+  "orientation": "landscape"
 }
