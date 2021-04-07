@@ -1,4 +1,3 @@
-![Discourse topics](https://img.shields.io/discourse/topics?color=f9ce03&label=Community&logo=Zea&logoColor=2d2d2d&server=https%3A%2F%2Fcommunity.zea.live%2F)
 
 # Zea Svelte Template
 
