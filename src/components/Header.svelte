@@ -237,16 +237,16 @@
 </script>
 
 {#if !embeddedMode}
-  <header class="flex items-center px-2 py-1 text-gray-200 z-50">
+  <header class="flex items-center px-2 py-1 space-x-2 text-gray-200 z-50">
     <span
-      class="material-icons cursor-default mr-2"
+      class="material-icons cursor-default"
       on:click={handleClickMenuToggle}
       title="{$ui.shouldShowDrawer ? 'Close' : 'Open'} drawer"
     >
       {$ui.shouldShowDrawer ? 'menu_open' : 'menu'}
     </span>
 
-    <img class="w-20 mx-3" src="/images/logo-zea.svg" alt="logo" />
+    <img class="h-6" src="/images/logo-zea.svg" alt="logo" />
 
     <MenuBar>
       <MenuBarItem label="View" let:isOpen>

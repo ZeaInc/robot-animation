@@ -30,7 +30,7 @@
   })
 </script>
 
-<div class="UsersChips flex flex-1 ml-3">
+<div class="UsersChips flex flex-1">
   {#each users as user, i}
     <div style="margin-left: -{i * 10}px;" transition:slide>
       <UserChip {user} />
