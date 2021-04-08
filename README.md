@@ -118,7 +118,7 @@ const SOCKET_URL = 'https://websocket-staging.zea.live'
 const ROOM_ID = 'zea-template-collab'
 ```
 
-> Note: the roomID is what defines whether users of a given app are visible to each other. Always customize this value to avoid collisions with other apps.
+> Note: the ROOM_ID is what defines whether users of a given app are visible to each other. Always customize this value to avoid collisions with other apps.
 
 ```javascript
 const session = new Session(userData, SOCKET_URL)

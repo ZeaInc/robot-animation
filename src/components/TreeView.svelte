@@ -6,7 +6,7 @@
   export let undoRedoManager = null
 </script>
 
-<div class="TreeView">
+<div class="TreeView w-max">
   {#each items as item}
     <TreeItem {item} {selectionManager} {undoRedoManager} />
   {/each}

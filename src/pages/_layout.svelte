@@ -1,3 +1,3 @@
-<div class="h-screen bg-background overflow-hidden text-foreground">
+<div class="h-screen bg-background text-foreground">
   <slot />
 </div>

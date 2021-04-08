@@ -25,7 +25,7 @@
   import { selectionManager } from '../stores/selectionManager.js'
   import { scene } from '../stores/scene.js'
 
-  import { ChannelMessenger } from '../ChannelMessenger.js'
+  import { createClient } from '../ChannelMessenger.js'
   import buildTree from '../helpers/buildTree'
 
   const {
@@ -56,12 +56,7 @@
   let fpsContainer
   const urlParams = new URLSearchParams(window.location.search)
   const embeddedMode = urlParams.has('embedded')
-  let client
   let progress
-
-  if (embeddedMode) {
-    client = new ChannelMessenger()
-  }
 
   const filterItemSelection = (item) => {
     // Propagate selections deep in the tree up to the part body.
@@ -117,12 +112,13 @@
     appData.cameraManipulator = cameraManipulator
     const toolManager = new ToolManager(appData)
     $selectionManager = new SelectionManager(appData, {
-      enableXfoHandles: false,
+      enableXfoHandles: true,
     })
 
-    appData.selectionManager = $selectionManager
+    // Users can enable the handles usinga menu or hotkey.
+    $selectionManager.showHandles(false)
 
-    $selectionManager.showHandles(true)
+    appData.selectionManager = $selectionManager
 
     const selectionTool = new SelectionTool(appData)
     selectionTool.setSelectionFilter(filterItemSelection)
@@ -228,7 +224,6 @@
           const baseColor = material.getParameter('BaseColor')
           if (baseColor) baseColor.setValue(baseColor.getValue().toGamma())
         })
-        renderer.frameAll()
       })
 
       asset.getGeometryLibrary().on('loaded', () => {
@@ -253,7 +248,7 @@
     /** COLLAB START
     if (!embeddedMode) {
       const SOCKET_URL = 'https://websocket-staging.zea.live'
-      const ROOM_ID = assetUrl
+      const roomId = assetUrl
 
       const userData = await auth.getUserData()
 
@@ -262,7 +257,7 @@
       }
 
       const session = new Session(userData, SOCKET_URL)
-      session.joinRoom(ROOM_ID)
+      session.joinRoom(roomId)
 
       const sessionSync = new SessionSync(session, appData, userData, {})
 
@@ -276,6 +271,8 @@
 
     /** EMBED MESSAGING START
     if (embeddedMode) {
+      const client = createClient()
+
       client.on('setBackgroundColor', (data) => {
         const color = new Color(data.color)
         $scene.getSettings().getParameter('BackgroundColor').setValue(color)
@@ -326,7 +323,6 @@
         client.send('selectionChanged', { selection: selectionPaths })
       })
     }
-
     /** EMBED MESSAGING END */
 
     /** DYNAMIC SELECTION UI START */
@@ -401,3 +397,9 @@
     />
   </Menu>
 {/if}
+
+<style>
+  canvas {
+    touch-action: none;
+  }
+</style>

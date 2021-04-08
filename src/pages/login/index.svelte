@@ -5,8 +5,6 @@
   import { auth } from '../../helpers/auth.js'
   import { getRandomString } from '../../helpers/misc.js'
 
-  const { Color } = window.zeaEngine
-
   let authError
   let shouldShowLayout
   let submitted
@@ -19,22 +17,24 @@
 
   const userId = getRandomString()
 
-  $: userData = {
-    avatar: `https://i.pravatar.cc/100?u=${userId}`,
-    color: Color.random().toHex(),
-    firstName: formFields.username,
-    id: userId,
-    lastName: '',
-    password: formFields.password,
-    username: formFields.username,
-  }
-
   const redirectToMain = () => {
     const params = new URLSearchParams(window.location.search)
     $redirect('/?' + params.toString())
   }
 
   const handleSubmit = async () => {
+    const { Color } = window.zeaEngine
+
+    const userData = {
+      avatar: `https://i.pravatar.cc/100?u=${userId}`,
+      color: Color.random().toHex(),
+      firstName: formFields.username,
+      id: userId,
+      lastName: '',
+      password: formFields.password,
+      username: formFields.username,
+    }
+
     try {
       await auth.setUserData(userData)
 
@@ -85,6 +85,7 @@
               type="text"
             />
           </div>
+
           <div>
             <input
               autocomplete="off"
@@ -95,13 +96,14 @@
               required
               type="password"
             />
-            {#if authError}
-              <span class="font-medium tracking-wide text-red-500 text-xs">
-                {authError.message}
-              </span>
-            {/if}
           </div>
         </div>
+
+        {#if authError}
+          <span class="font-medium tracking-wide text-red-500 text-xs">
+            {authError.message}
+          </span>
+        {/if}
 
         <div>
           <button

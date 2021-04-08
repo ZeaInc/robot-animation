@@ -27,9 +27,11 @@
 
   let cameraManipulator
   let isSelectionEnabled = false
+  let isTransformHandlesEnabled = false
   let renderer
   let session
   let sessionSync
+  let selectionManager
   let toolManager
   let undoRedoManager
   let userData
@@ -72,6 +74,15 @@
       : toolManager.popTool()
   }
 
+  const handleMenuTransformHandlesChange = () => {
+    console.log('showHandles')
+    if (!selectionManager) {
+      return
+    }
+    selectionManager.showHandles(isTransformHandlesEnabled)
+    selectionManager.updateHandleVisibility()
+  }
+
   onMount(() => {
     if (session) {
       session.leaveRoom()
@@ -85,6 +96,7 @@
       }
 
       renderer = appData.renderer
+      selectionManager = appData.selectionManager
       toolManager = appData.toolManager
       cameraManipulator = appData.cameraManipulator
       undoRedoManager = appData.undoRedoManager
@@ -225,16 +237,18 @@
 </script>
 
 {#if !embeddedMode}
-  <header class="flex items-center px-2 py-1 text-gray-200 z-50">
+  <header
+    class="flex flex-col sm:flex-row sm:items-center px-2 py-1 space-x-2 text-gray-200 z-50"
+  >
     <span
-      class="material-icons cursor-default mr-2"
+      class="material-icons cursor-default"
       on:click={handleClickMenuToggle}
       title="{$ui.shouldShowDrawer ? 'Close' : 'Open'} drawer"
     >
       {$ui.shouldShowDrawer ? 'menu_open' : 'menu'}
     </span>
 
-    <img class="w-20 mx-3" src="/images/logo-zea.svg" alt="logo" />
+    <img class="h-6" src="/images/logo-zea.svg" alt="logo" />
 
     <MenuBar>
       <MenuBarItem label="View" let:isOpen>
@@ -267,6 +281,12 @@
             label="Enable Selection Tool"
             on:change={handleMenuSelectionChange}
             shortcut="S"
+          />
+          <MenuItemToggle
+            bind:checked={isTransformHandlesEnabled}
+            label="Enable Transform Handles"
+            on:change={handleMenuTransformHandlesChange}
+            shortcut="T"
           />
           <MenuItemToggle
             bind:checked={walkModeEnabled}
@@ -316,5 +336,19 @@
       </UserChip>
     {/if}
     -->
+
+    <div
+      class="OrientationWarning text-gray-700 rounded bg-yellow-300 text-center px-1 text-sm mt-1"
+    >
+      This app looks better in landscape mode.
+    </div>
   </header>
 {/if}
+
+<style>
+  @media (orientation: landscape) {
+    .OrientationWarning {
+      display: none;
+    }
+  }
+</style>

@@ -3,10 +3,10 @@
 
   import { scene } from '../stores/scene.js'
 
-  const { Color, Material, GeomItem, GridTreeItem } = window.zeaEngine
+  const { Color, Material, TreeItem, GeomItem, GridTreeItem } = window.zeaEngine
 
   let searchInputEl
-  let searchResults
+  let searchResultsEl
   let value = ''
 
   const filteredItemsSet = new Set()
@@ -22,8 +22,8 @@
 
   const doSearch = () => {
     if ($scene) {
-      while (searchResults.firstChild) {
-        searchResults.removeChild(searchResults.lastChild)
+      while (searchResultsEl.firstChild) {
+        searchResultsEl.removeChild(searchResultsEl.lastChild)
       }
       filteredItemsSet.forEach((item) => {
         if (item instanceof GeomItem) {
@@ -44,12 +44,13 @@
       if (value.length >= 2) {
         const re = new RegExp(value, 'i')
         $scene.getRoot().traverse((item) => {
-          if (item instanceof GridTreeItem) return false
+          if (item instanceof GridTreeItem || !(item instanceof TreeItem))
+            return false
           if (re.test(item.getName())) {
             const listItem = document.createElement('li')
             listItem.classList.add('truncate')
             listItem.textContent = item.getName()
-            searchResults.appendChild(listItem)
+            searchResultsEl.appendChild(listItem)
             matchedItemsSet.add(item)
             item.addHighlight('searchResult', matchColor, true)
             return false
@@ -92,5 +93,5 @@
       type="search"
     />
   </form>
-  <ul bind:this={searchResults} class="py-3" id="searchResults" />
+  <ul bind:this={searchResultsEl} class="py-3" id="searchResults" />
 </div>

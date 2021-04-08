@@ -2,14 +2,19 @@
 
 ## Embed View
 
-> http://docs.zea.live/zea-svelte-template/embed.html
-
-The Embed view shows how Web Composer would be displayed within the context of another application. The host application can then control the embedded Web Composer via the JSON API and the Channel Messenger classes.
+The Embed view shows how the svelte app would be displayed within the context of another application, embedded as an iFrame. The host application can then control the embedded svelte app via the JSON API and the Channel Messenger classes.
 
 # Getting Started
 
-To test zea-svelt-template embedded on your system, clone this repository and run a static http server in the docs directory of the project.
+To test zea-svelt-template embedded on your system, and run through the following steps.
 
+In the root of the project, run the svelete app as normal using dev.
+
+```sh
+> npm run dev
+```
+
+With the Svelte app being server, run a static http server, in the docs directory of the project.
 You may need to install a static server on your system. The http-server npm package is a good basic server.
 
 ```sh
@@ -50,11 +55,11 @@ The web app is intended to be deployed on a client companies infrastructure. Thi
 
 # JSON API
 
-The cad viewer accepts a range of commands sent via the ChannelMessenger interface.
+The Svelte app accepts a range of commands sent via the ChannelMessenger interface.
 
 ## Events
 
-The Zea Svelte App might emit events based on interactions within the viewer or other reasons. The host web application can listen to these events and respond.
+The Svelte App might emit events based on interactions within the viewer or other reasons. The host web application can listen to these events and respond.
 
 #### Ready
 

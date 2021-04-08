@@ -1,6 +1,6 @@
-const { TreeItem, AssetItem } = window.zeaEngine
-
 const buildTree = (treeItem) => {
+  const { TreeItem, AssetItem } = window.zeaEngine
+
   const __c = (treeItem, json, depth) => {
     const children = treeItem.getChildren()
 
@@ -18,7 +18,11 @@ const buildTree = (treeItem) => {
   const __t = (treeItem, depth) => {
     const name = treeItem.getName()
     // filter out nodes at the leaves of the tree.
-    if (name.startsWith('Mesh') || name.startsWith('Edge') || name.startsWith('TreeItem')) {
+    if (
+      name.startsWith('Mesh') ||
+      name.startsWith('Edge') ||
+      name.startsWith('TreeItem')
+    ) {
       return false
     }
     const json = {

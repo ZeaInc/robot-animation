@@ -2,9 +2,12 @@
   import { Router } from '@roxi/routify'
   import { routes } from '../.routify/routes'
   import './helpers/zea-timebar.js'
+  import Serviceworker from './Serviceworker.svelte'
 </script>
 
 <Router {routes} />
+
+<Serviceworker />
 
 <style global>
   @import '../assets/global.css';

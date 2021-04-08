@@ -8,6 +8,7 @@ import { copySync, removeSync } from 'fs-extra'
 import { spassr } from 'spassr'
 import getConfig from '@roxi/routify/lib/utils/config'
 import autoPreprocess from 'svelte-preprocess'
+import { injectManifest } from 'rollup-plugin-workbox'
 
 const { distDir } = getConfig() // use Routify's distDir for SSOT
 const assetsDir = 'assets'
@@ -80,6 +81,14 @@ export default {
         map: { mappings: '' },
       }),
     },
+    injectManifest({
+      globDirectory: assetsDir,
+      globPatterns: ['**/*.{js,css,svg}', '__app.html'],
+      swSrc: `src/sw.js`,
+      swDest: `${distDir}/serviceworker.js`,
+      maximumFileSizeToCacheInBytes: 10000000, // 10 MB,
+      mode: 'production',
+    }),
     production && copyToDist(),
   ],
   watch: {

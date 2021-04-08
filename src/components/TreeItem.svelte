@@ -1,7 +1,12 @@
 <script>
   import { beforeUpdate } from 'svelte'
 
-  export let expanded = false
+  import IconEye from '../components/icons/IconEye.svelte'
+  import IconEyeOff from '../components/icons/IconEyeOff.svelte'
+  import IconChevronDown from '../components/icons/IconChevronDown.svelte'
+  import IconChevronRight from '../components/icons/IconChevronRight.svelte'
+
+  export let isExpanded = false
   export let highlighted = false
   export let item
   export let selectionManager = null
@@ -13,6 +18,8 @@
   let highlightBgColor
   let highlightColor
   let isTreeItem
+  let unsubChildAdded
+  let unsubChildRemoved
   let unsubHighlightChanged
   let unsubVisibilityChanged
 
@@ -35,8 +42,8 @@
     }
   }
 
-  const toggleExpanded = () => {
-    expanded = !expanded
+  const toggleIsExpanded = () => {
+    isExpanded = !isExpanded
   }
 
   const updateVisibility = () => {
@@ -73,6 +80,10 @@
     selectionManager.toggleItemSelection(item, !event.ctrlKey)
   }
 
+  const forceRender = () => {
+    item = item
+  }
+
   const initItem = () => {
     if (!item) {
       return
@@ -94,10 +105,19 @@
     updateVisibility()
 
     if (isTreeItem) {
+      if (unsubChildAdded > -1) {
+        item.off('childAdded', forceRender)
+      }
+      unsubChildAdded = item.on('childAdded', forceRender)
+
+      if (unsubChildRemoved > -1) {
+        unsubChildRemoved = item.off('childRemoved', forceRender)
+      }
+      unsubChildRemoved = item.on('childRemoved', forceRender)
+
       if (unsubVisibilityChanged > -1) {
         item.off('visibilityChanged', updateVisibility)
       }
-
       unsubVisibilityChanged = item.on('visibilityChanged', updateVisibility)
 
       // This code is for a special case when items are replaced in the
@@ -108,7 +128,6 @@
     if (unsubHighlightChanged > -1) {
       item.off('highlightChanged', updateHighlight)
     }
-
     unsubHighlightChanged = item.on('highlightChanged', updateHighlight)
   }
 
@@ -118,26 +137,43 @@
 </script>
 
 {#if item}
-  <div bind:this={el} class="TreeItem {visible || 'text-gray-500'}">
-    <div class="flex items-center">
+  <div
+    bind:this={el}
+    class="TreeItem space-x-0.5 text-sm"
+    class:text-gray-500={!visible}
+  >
+    <div
+      class="flex items-center cursor-default hover:bg-gray-800 transition-colors"
+    >
       {#if hasChildren}
-        <button class="px-1" on:click={toggleExpanded}>
-          <span class="material-icons">
-            {expanded ? 'expand_more' : 'chevron_right'}
-          </span>
+        <button
+          class="cursor-default hover:bg-gray-700 rounded w-5 h-5"
+          on:click={toggleIsExpanded}
+        >
+          {#if isExpanded}
+            <IconChevronDown />
+          {:else}
+            <IconChevronRight />
+          {/if}
         </button>
       {/if}
 
       {#if isTreeItem}
-        <button class="px-1" on:click={toggleVisibility}>
-          <span class="material-icons">
-            {visible ? 'visibility' : 'visibility_off'}
-          </span>
+        <button
+          class="cursor-default hover:bg-gray-700 rounded w-5 h-5 p-1"
+          class:text-white={visible}
+          on:click={toggleVisibility}
+        >
+          {#if visible}
+            <IconEye />
+          {:else}
+            <IconEyeOff />
+          {/if}
         </button>
       {/if}
 
       <span
-        class="flex-1 border rounded px-1"
+        class="flex-1 border rounded"
         style="background-color: {highlighted
           ? highlightBgColor
           : 'transparent'}; border-color: {highlighted
@@ -149,7 +185,7 @@
       </span>
     </div>
 
-    {#if hasChildren && expanded}
+    {#if hasChildren && isExpanded}
       <div class="pl-3 border-dotted border-l ml-3">
         {#if isTreeItem}
           {#each item.getChildren() as childItem}
@@ -164,9 +200,3 @@
     {/if}
   </div>
 {/if}
-
-<style>
-  .material-icons {
-    font-size: 1rem;
-  }
-</style>

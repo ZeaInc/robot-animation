@@ -22,10 +22,12 @@
   $: firstName = user.firstName || user.given_name || ' '
   $: lastName = user.lastName || user.family_name || ' '
 
-  $: initials = `${firstName[0]}${lastName[0]}`
+  $: initials = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`
 </script>
 
-<div class="UserChip relative">
+<div
+  class="UserChip relative transform hover:scale-105 transition-transform transform hover:scale-105"
+>
   <div
     class="h-8 w-8 flex items-center justify-center rounded-full truncate text-white bg-cover border border-gray-500"
     on:click={handleUserChipClick}
