@@ -205,6 +205,7 @@
 
     const model = loadModel(appData)
     $assets.addChild(model)
+    $selectionManager.toggleItemSelection(model.getChildByName('target'))
 
     setupAnimation(model)
 
