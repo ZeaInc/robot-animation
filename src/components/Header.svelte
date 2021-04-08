@@ -237,7 +237,9 @@
 </script>
 
 {#if !embeddedMode}
-  <header class="flex items-center px-2 py-1 space-x-2 text-gray-200 z-50">
+  <header
+    class="flex flex-col sm:flex-row sm:items-center px-2 py-1 space-x-2 text-gray-200 z-50"
+  >
     <span
       class="material-icons cursor-default"
       on:click={handleClickMenuToggle}
@@ -347,5 +349,19 @@
         </div>
       </UserChip>
     {/if}
+
+    <div
+      class="OrientationWarning text-gray-700 rounded bg-yellow-300 text-center px-1 text-sm mt-1"
+    >
+      This app looks better in landscape mode.
+    </div>
   </header>
 {/if}
+
+<style>
+  @media (orientation: landscape) {
+    .OrientationWarning {
+      display: none;
+    }
+  }
+</style>
