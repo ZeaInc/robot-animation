@@ -200,7 +200,7 @@
 
     if (!SystemDesc.isMobileDevice && SystemDesc.gpuDesc.supportsWebGL2) {
       const pointCloud = loadPointCloud(appData)
-      $scene.getRoot().addChild(pointCloud)
+      $assets.addChild(pointCloud)
     }
 
     const model = loadModel(appData)

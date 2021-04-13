@@ -7,7 +7,7 @@ const loadPointCloud = (appData) => {
   // Force a fix for the recent regression.
   pointCloudPass.__passIndex = pointCloudPass.passIndex
 
-  const pointCloud = new PointCloudAsset('NavVisHQ')
+  const pointCloud = new PointCloudAsset('PointCloud')
   const pointCloudUrl =
     'https://storage.googleapis.com/zea-projects-assets/5764748591235072/NavVisHQ/cloud.js'
   pointCloud.getParameter('Point Size').setValue(0.5)
@@ -19,6 +19,8 @@ const loadPointCloud = (appData) => {
     xfo.tr.addInPlace(new Vec3(17, 15, 0))
     xfoParam.setValue(xfo)
   })
+
+  pointCloud.setName('PointCloud')
 
   return pointCloud
 }
