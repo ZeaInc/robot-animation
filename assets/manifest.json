@@ -1,8 +1,8 @@
 {
   "background_color": "#222222",
   "theme_color": "#f9ce03",
-  "name": "Zea Svelte Template",
-  "short_name": "Zea Svelte Template",
+  "name": "Zea Robot Animation Showcase",
+  "short_name": "Zea Robot Animation Showcase",
   "start_url": "/",
   "display": "fullscreen",
   "icons": [
