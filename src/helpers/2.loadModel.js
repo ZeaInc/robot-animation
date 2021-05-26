@@ -24,9 +24,7 @@ const loadModel = (appData) => {
   // ///////////////////////////////////////
   // Load the Robot Model
   const asset = new CADAsset('MC700_ASSY')
-  // asset.getParameter('DataFilePath').setUrl('data/MC700_ASSY.zcad')
-  asset.getParameter('DataFilePath').setUrl('data/MC700_ASSY-visu.zcad')
-
+  asset.load('data/MC700_ASSY.zcad')
   asset.getMaterialLibrary().on('loaded', () => {
     asset
       .getMaterialLibrary()

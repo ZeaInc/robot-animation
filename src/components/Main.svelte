@@ -91,6 +91,13 @@
       .getParameter('BackgroundColor')
       .setValue(new Color(0.35, 0.35, 0.35, 1))
     renderer.setScene($scene)
+    renderer.outlineThickness = 2
+    renderer.outlineColor = new Color(0.2, 0.2, 0.2, 1)
+    renderer
+      .getViewport()
+      .getManipulator()
+      .getParameter('OrbitAroundCursor')
+      .setValue(false)
 
     const appData = {}
 
