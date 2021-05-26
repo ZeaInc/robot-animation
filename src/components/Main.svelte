@@ -205,7 +205,11 @@
     fpsContainer.appendChild(fpsDisplay)
     /** FPS DISPLAY END */
 
-    if (!SystemDesc.isMobileDevice && SystemDesc.gpuDesc.supportsWebGL2) {
+    if (
+      !SystemDesc.isMobileDevice &&
+      SystemDesc.gpuDesc.supportsWebGL2 &&
+      !urlParams.has('nopoints')
+    ) {
       const pointCloud = loadPointCloud(appData)
       $assets.addChild(pointCloud)
     }
