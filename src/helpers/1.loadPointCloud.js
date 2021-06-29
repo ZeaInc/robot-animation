@@ -9,7 +9,7 @@ const loadPointCloud = (appData) => {
 
   const pointCloud = new PointCloudAsset('PointCloud')
   const pointCloudUrl =
-    'https://storage.googleapis.com/zea-projects-assets/5764748591235072/NavVisHQ/cloud.js'
+    'https://storage.googleapis.com/visualive-tmp/NavVisHQ/cloud.js'
   pointCloud.getParameter('Point Size').setValue(0.5)
   pointCloud.getParameter('Point Size Attenuation').setValue(0.5)
   pointCloud.loadPointCloud(pointCloudUrl, 'PointCloud').then((e) => {
